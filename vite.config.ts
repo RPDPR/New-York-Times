@@ -20,7 +20,7 @@ export default defineConfig({
       "/svc": {
         target: "https://api.nytimes.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/svc/, ""),
+        secure: true,
       },
     },
   },

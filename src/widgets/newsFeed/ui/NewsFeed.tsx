@@ -47,7 +47,7 @@ export const NewsFeed: FC = () => {
         };
 
         newArticles.forEach((el) => {
-          const key = el.date.split("T")[0];
+          const key = new Date(el.date).toLocaleDateString("en-CA");
           if (!formattedArticles[key]) {
             formattedArticles[key] = [];
           }

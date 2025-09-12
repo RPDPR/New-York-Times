@@ -6,7 +6,7 @@ const token = import.meta.env.VITE_API_TOKEN;
 const baseUrl =
   import.meta.env.MODE === "production"
     ? "https://api.nytimes.com/svc/"
-    : "/svc/";
+    : "/svc";
 
 export const newsApiSlice = createApi({
   reducerPath: "news",
