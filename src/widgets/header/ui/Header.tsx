@@ -19,7 +19,7 @@ export const Header: FC = () => {
         <div className="w-full h-full flex flex-col justify-center py-5 pr-5">
           <div className="w-full h-full relative flex items-center">
             <CloseButton
-              className="absolute left-full top-0 cursor-pointer"
+              className="absolute left-full top-0 dark:text-white cursor-pointer"
               onClick={handleClick}
             />
             <div className="w-full min-h-[351px] flex justify-center flex-wrap">
@@ -50,7 +50,7 @@ export const Header: FC = () => {
       ) : (
         <div className="w-full h-full relative flex items-center">
           <BurgerButton
-            className="absolute cursor-pointer"
+            className="absolute dark:text-white cursor-pointer"
             onClick={handleClick}
           />
           <div className="w-full h-full flex justify-center items-center">
