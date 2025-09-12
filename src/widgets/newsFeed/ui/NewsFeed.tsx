@@ -85,7 +85,7 @@ export const NewsFeed: FC = () => {
         return (
           <div key={`news-${dayIndex}-${day}`} className="w-full">
             <div
-              className={`text-left text-[18px] text-black font-sans font-bold tracking-normal leading-[26px] ${
+              className={`text-left text-[18px] font-sans font-bold tracking-normal leading-[26px] ${
                 dayIndex === 0 ? "py-3" : "py-8"
               }`}
             >
