@@ -1,0 +1,29 @@
+import type { FC } from "react";
+import { LabelNewsApi } from "@/shared/assets/index";
+import { APP_CONSTS } from "@/shared/models/index";
+
+export const Footer: FC = () => {
+  return (
+    <div className="w-full h-47 dark:bg-black px-15 pb-5">
+      <div className="w-60 h-full mx-auto flex flex-col justify-between">
+        <div className="w-full text-[12px] font-sans font-normal flex justify-between">
+          <a href="/#">Log In</a>
+          <a href="/#">About Us</a>
+          <a href="/#">Publishers</a>
+          <a href="/#">Sitemap</a>
+        </div>
+        <div className="w-full text-[12px] font-sans font-normal flex justify-center">
+          <div className="w-21 flex justify-center flex-wrap">
+            <p>Powered by</p>
+            <a href="/#" className="cursor-pointer pt-2">
+              <LabelNewsApi />
+            </a>
+          </div>
+        </div>
+        <div className="w-full text-[12px] font-sans font-normal text-center">
+          <p>© 2025 Outsider. Inspired by Insider</p>
+        </div>
+      </div>
+    </div>
+  );
+};
