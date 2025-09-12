@@ -3,11 +3,15 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import type { FetchSchema, ResponseSchema } from "@/shared/models/index";
 
 const token = import.meta.env.VITE_API_TOKEN;
+const baseUrl =
+  import.meta.env.MODE === "production"
+    ? "https://api.nytimes.com/"
+    : "/api/svc/";
 
 export const newsApiSlice = createApi({
   reducerPath: "news",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/svc/",
+    baseUrl: baseUrl,
   }),
   endpoints: (builder) => {
     return {
@@ -33,15 +37,11 @@ export const newsApiSlice = createApi({
               };
 
               if (el != null && Object.keys(el).length) {
-                articleObject.abstract = el.abstract != null ? el.abstract : "";
-                articleObject.headline =
-                  el.headline.main != null ? el.headline.main : "";
-                articleObject.imageUrl =
-                  el.multimedia.thumbnail.url != null
-                    ? el.multimedia.thumbnail.url
-                    : "";
-                articleObject.date = el.pub_date != null ? el.pub_date : "";
-                articleObject.webUrl = el.web_url != null ? el.web_url : "";
+                articleObject.abstract = el.abstract ?? "";
+                articleObject.headline = el.headline.main ?? "";
+                articleObject.imageUrl = el.multimedia.thumbnail.url ?? "";
+                articleObject.date = el.pub_date ?? "";
+                articleObject.webUrl = el.web_url ?? "";
               }
 
               fetchResult.docs.push(articleObject);

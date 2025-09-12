@@ -4,13 +4,17 @@ import "./styles/globals.css";
 import App from "./App.tsx";
 import { Provider } from "react-redux";
 import { store } from "@/app/store.ts";
-import { Analytics } from "@vercel/analytics/next";
+
+import { inject } from "@vercel/analytics";
+
+if (import.meta.env.PROD) {
+  inject();
+}
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
       <App />
-      <Analytics />
     </Provider>
   </StrictMode>
 );
