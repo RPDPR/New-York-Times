@@ -5,7 +5,7 @@ import type { FetchSchema, ResponseSchema } from "@/shared/models/index";
 const token = import.meta.env.VITE_API_TOKEN;
 const baseUrl =
   import.meta.env.MODE === "production"
-    ? "https://api.nytimes.com/"
+    ? "https://api.nytimes.com/api/svc/"
     : "/api/svc/";
 
 export const newsApiSlice = createApi({
