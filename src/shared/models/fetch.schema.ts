@@ -1,7 +1,7 @@
 export interface ResponseSchema {
   response: {
     docs: ({
-      headline: string | null;
+      headline: { main: string | null };
       abstract: string | null;
       web_url: string | null;
       multimedia: {
@@ -15,10 +15,11 @@ export interface ResponseSchema {
 }
 
 export interface Article {
-  headline: string | null;
-  abstract: string | null;
-  imageUrl: string | null;
-  date: string | null;
+  headline: string;
+  abstract: string;
+  imageUrl: string;
+  date: string;
+  webUrl: string;
 }
 
 export interface FetchSchema {

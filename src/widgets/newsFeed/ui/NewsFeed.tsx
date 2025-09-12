@@ -3,51 +3,20 @@ import { useState, useEffect, useRef } from "react";
 import { NewsCard } from "@/entities/newsCard/index";
 import { LoadingCard } from "@/entities/loadingCard/index";
 import { useGetNewsQuery } from "@/app/services/news/newsApiSlice";
-import type { Article, FetchSchema } from "@/shared/models/index";
-
-const data = {
-  "16.06.2023": {
-    "1": {
-      title: "OOY",
-      desc: "Why TikTok is taking months to delete personal US user data from servers outside its Project Texas firewalls, even as its political standing sours",
-      image: "./src/nikita.png",
-      date: "Feb 26, 2023, 16.32 PM",
-    },
-    "2": {
-      title: "NIKITA",
-      desc: "Why TikTok is taking months to delete personal US user data from servers outside its Project Texas firewalls, even as its political standing sours",
-      image: "./src/nikita.png",
-      date: "Feb 26, 2023, 16.32 PM",
-    },
-  },
-  "15.06.2023": {
-    "1": {
-      title: "OOY",
-      desc: "Why TikTok is taking months to delete personal US user data from servers outside its Project Texas firewalls, even as its political standing sours",
-      image: "./src/nikita.png",
-      date: "Feb 26, 2023, 16.32 PM",
-    },
-    "2": {
-      title: "NIKITA",
-      desc: "Why TikTok is taking months to delete personal US user data from servers outside its Project Texas firewalls, even as its political standing sours",
-      image: "./src/nikita.png",
-      date: "Feb 26, 2023, 16.32 PM",
-    },
-    "3": {
-      title: "IS_THERE",
-      desc: "Why TikTok is taking months to delete personal US user data from servers outside its Project Texas firewalls, even as its political standing sours",
-      image: "./src/nikita.png",
-      date: "Feb 26, 2023, 16.32 PM",
-    },
-  },
-};
+import type { Article } from "@/shared/models/index";
+import { formatUserDate } from "@/shared/lib/index";
+import { APP_CONSTS } from "@/shared/models/index";
 
 export const NewsFeed: FC = () => {
-  const [articles, setArticles] = useState<Article[]>([]);
+  const [articles, setArticles] = useState<Record<string, Article[]>>({});
   const [page, setPage] = useState<number>(0);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const { data: news, isFetching, isLoading } = useGetNewsQuery({ page });
-  console.log(news);
+  const {
+    data: news,
+    isFetching,
+    isLoading,
+    isError,
+  } = useGetNewsQuery({ page }, { pollingInterval: 30000 });
 
   useEffect(() => {
     if (!loaderRef.current) return;
@@ -55,7 +24,7 @@ export const NewsFeed: FC = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         const target = entries[0];
-        if (target.isIntersecting && !isFetching) {
+        if (target.isIntersecting && !isFetching && !isLoading) {
           setPage((prev) => prev + 1);
         }
       },
@@ -67,38 +36,74 @@ export const NewsFeed: FC = () => {
     return () => {
       observer.disconnect();
     };
-  }, [isFetching]);
+  }, [isFetching, isLoading]);
 
   useEffect(() => {
     if (news?.docs) {
-      setArticles((prev) => [...prev, ...news.docs]);
+      setArticles((prev) => {
+        const newArticles = [...news.docs];
+        const formattedArticles: Record<string, Article[]> = {
+          ...prev,
+        };
+
+        newArticles.forEach((el) => {
+          const key = el.date.split("T")[0];
+          if (!formattedArticles[key]) {
+            formattedArticles[key] = [];
+          }
+          if (!formattedArticles[key].some((a) => a.webUrl === el.webUrl)) {
+            formattedArticles[key].push(el);
+          }
+        });
+
+        return formattedArticles;
+      });
     }
   }, [news]);
 
+  if (isError) {
+    return (
+      <div className="w-80 h-20 flex justify-center items-center">
+        <div className="w-full text-center">
+          <h1>{APP_CONSTS.newsFeed.errorText}</h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="w-80">
+        <LoadingCard />
+      </div>
+    );
+  }
+
   return (
     <div className="w-80">
-      {articles.map(([key, value], index) => {
+      {Object.entries(articles).map(([day, articleArray], dayIndex) => {
         return (
-          <div key={`news-${key}`} className="w-full">
+          <div key={`news-${dayIndex}-${day}`} className="w-full">
             <div
               className={`text-left text-[18px] text-black font-sans font-bold tracking-normal leading-[26px] ${
-                index === 0 ? "py-3" : "py-8"
+                dayIndex === 0 ? "py-3" : "py-8"
               }`}
             >
-              <h1>News for {key}</h1>
+              <h1>News for {day}</h1>
             </div>
             <div className="w-full flex flex-col gap-4">
-              {Object.entries(value).map(([key, value]) => {
+              {articleArray.map((article, articleIndex) => {
                 return (
                   <div
-                    key={`newsCard-${key}`}
+                    key={`newsCard-${articleIndex}-${dayIndex}`}
                     className="border-b-1 last:border-b-0 border-b-[#ededed]"
                   >
                     <NewsCard
-                      title={value.title}
-                      desc={value.desc}
-                      image={value.image}
-                      date={value.date}
+                      headline={article.headline}
+                      abstract={article.abstract}
+                      imageUrl={article.imageUrl}
+                      date={formatUserDate(article.date)}
+                      webUrl={article.webUrl}
                     />
                   </div>
                 );
@@ -107,9 +112,7 @@ export const NewsFeed: FC = () => {
           </div>
         );
       })}
-      <div ref={loaderRef}>
-        {isLoading || isFetching ? <LoadingCard /> : ""}
-      </div>
+      <div ref={loaderRef}>{isFetching && <LoadingCard />}</div>
     </div>
   );
 };

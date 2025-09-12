@@ -24,25 +24,25 @@ export const Header: FC = () => {
             />
             <div className="w-full min-h-[351px] flex justify-center flex-wrap">
               <div className="w-full h-5 flex justify-start">
-                <h1>SCIENCE</h1>
+                <a href="/#">SCIENCE</a>
               </div>
               <div className="w-full h-5 flex justify-start">
-                <h1>GENERAL</h1>
+                <a href="/#">GENERAL</a>
               </div>
               <div className="w-full h-5 flex justify-start">
-                <h1>ENTERTAINMENT</h1>
+                <a href="/#">ENTERTAINMENT</a>
               </div>
               <div className="w-full h-5 flex justify-start">
-                <h1>TECHNOLOGY</h1>
+                <a href="/#">TECHNOLOGY</a>
               </div>
               <div className="w-full h-5 flex justify-start">
-                <h1>BUSINESS</h1>
+                <a href="/#">BUSINESS</a>
               </div>
               <div className="w-full h-5 flex justify-start">
-                <h1>HEALTH</h1>
+                <a href="/#">HEALTH</a>
               </div>
               <div className="w-full h-5 flex justify-start">
-                <h1>SPORTS</h1>
+                <a href="/#">SPORTS</a>
               </div>
             </div>
           </div>

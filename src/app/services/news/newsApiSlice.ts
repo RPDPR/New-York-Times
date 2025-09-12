@@ -1,25 +1,8 @@
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { FetchSchema, ResponseSchema } from "@/shared/models/index";
-import { parseIsoDate } from "@/shared/lib/index";
 
 const token = import.meta.env.VITE_API_TOKEN;
-
-// export const newsApiSlice = createApi({
-//   reducerPath: "news",
-//   baseQuery: fetchBaseQuery({
-//     baseUrl: "/api/svc/news/v3/content/",
-//   }),
-//   endpoints: (builder) => {
-//     return {
-//       getNews: builder.query({
-//         query: () => "all/all.json?api-key=CzuBLlrCPH5CvDB1ugZSFNoUTOAFpNMw",
-//       }),
-//     };
-//   },
-// });
-
-// export const { useGetNewsQuery } = newsApiSlice;
 
 export const newsApiSlice = createApi({
   reducerPath: "news",
@@ -42,22 +25,23 @@ export const newsApiSlice = createApi({
           ) {
             response.response.docs.forEach((el) => {
               const articleObject: FetchSchema["docs"][number] = {
-                headline: null,
-                abstract: null,
-                imageUrl: null,
-                date: null,
+                headline: "",
+                abstract: "",
+                imageUrl: "",
+                date: "",
+                webUrl: "",
               };
 
               if (el != null && Object.keys(el).length) {
-                articleObject.abstract =
-                  el.abstract != null ? el.abstract : null;
+                articleObject.abstract = el.abstract != null ? el.abstract : "";
                 articleObject.headline =
-                  el.headline != null ? el.headline : null;
+                  el.headline.main != null ? el.headline.main : "";
                 articleObject.imageUrl =
                   el.multimedia.thumbnail.url != null
                     ? el.multimedia.thumbnail.url
-                    : null;
-                articleObject.date = el.pub_date != null ? el.pub_date : null;
+                    : "";
+                articleObject.date = el.pub_date != null ? el.pub_date : "";
+                articleObject.webUrl = el.web_url != null ? el.web_url : "";
               }
 
               fetchResult.docs.push(articleObject);

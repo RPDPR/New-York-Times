@@ -1,6 +1,7 @@
 export type T_NewsCard = {
-  title: string;
-  desc: string;
-  image: string;
+  headline: string;
+  abstract: string;
+  imageUrl: string;
   date: string;
+  webUrl: string;
 };

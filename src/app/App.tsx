@@ -7,7 +7,7 @@ function App() {
     <>
       <div className="flex flex-col min-h-screen">
         <Header />
-        <main className="flex-1 pt-18 mx-auto px-5">
+        <main className="flex-1 pt-18 pb-47 mx-auto px-5">
           <NewsFeed />
         </main>
         <Footer />

@@ -2,7 +2,8 @@ export const parseIsoDate = (isoDate: string) => {
   return new Date(isoDate);
 };
 
-export const formatUserDate = (date: Date) => {
+export const formatUserDate = (date: string) => {
+  const formattedDate = parseIsoDate(date);
   const months = [
     "Jan",
     "Feb",
@@ -18,12 +19,12 @@ export const formatUserDate = (date: Date) => {
     "Dec",
   ];
 
-  const month = months[date.getMonth()];
-  const day = date.getDate();
-  const year = date.getFullYear();
+  const month = months[formattedDate.getMonth()];
+  const day = formattedDate.getDate();
+  const year = formattedDate.getFullYear();
 
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
+  let hours = formattedDate.getHours();
+  const minutes = formattedDate.getMinutes();
   const isPM = hours >= 12;
 
   hours = hours % 12;
