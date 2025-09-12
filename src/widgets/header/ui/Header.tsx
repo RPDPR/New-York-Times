@@ -13,7 +13,7 @@ export const Header: FC = () => {
     <div
       className={`w-full ${
         isOpened ? "h-160" : "h-18"
-      } fixed bg-white dark:bg-black border-b-1 border-[#ededed] px-5 transition-discrete duration-300 z-100`}
+      } fixed bg-white dark:bg-[#010112] border-b-1 border-[#ededed] px-5 transition-discrete duration-300 z-100`}
     >
       {isOpened ? (
         <div className="w-full h-full flex flex-col justify-center py-5 pr-5">
