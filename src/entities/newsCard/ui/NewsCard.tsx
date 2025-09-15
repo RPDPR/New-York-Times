@@ -21,11 +21,11 @@ export const NewsCard: FC<T_NewsCard & HTMLAttributes<HTMLDivElement>> = ({
           <div className="w-20 h-20 bg-[#ededed] rounded-xl"></div>
         )}
       </div>
-      <div className="w-full h-full">
+      <div className="w-full h-full flex flex-col">
         <div className="w-full text-left text-[14px] text-[#096FFA] font-sans font-black tracking-normal leading-normal pb-2">
           <a href={webUrl ? webUrl : "/#"}>{headline}</a>
         </div>
-        <div className="w-full text-left text-[16px] font-sans font-normal tracking-normal leading-[22px] pb-2">
+        <div className="w-full text-left text-[16px] font-sans font-normal tracking-normal leading-[22px] flex-1 pb-2">
           <p>{abstract}</p>
         </div>
         <div className="w-full text-left text-[14px] text-[#6D787A] font-sans font-normal tracking-normal leading-none">
